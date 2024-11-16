@@ -1,0 +1,221 @@
+{% extends 'map_app/base.html' %}
+{% load leaflet_tags %}
+
+{% block content %}
+{% csrf_token %}
+
+<div id="map-container">
+    {% leaflet_map "main_map" callback="window.map_init" %}
+</div>
+
+<div id="point-form">
+    <h3>Add New Point</h3>
+    <form id="add-point-form">
+        <div class="form-group">
+            <label for="point-name">Point Name</label>
+            <input type="text" id="point-name" name="name" placeholder="Enter point name" required>
+        </div>
+        <div class="form-group">
+            <label for="point-description">Description</label>
+            <textarea id="point-description" name="description" placeholder="Enter description" rows="3"></textarea>
+        </div>
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lng" id="lng">
+        <button type="submit" class="submit-btn">Add Point</button>
+    </form>
+</div>
+
+<!-- Points List -->
+<div class="points-list">
+    <h3>Points List</h3>
+    <table class="points-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for point in points %}
+            <tr data-point-id="{{ point.id }}">
+                <td>{{ point.id }}</td>
+                <td>{{ point.name }}</td>
+                <td>{{ point.description }}</td>
+                <td>
+                    <button class="delete-point-btn" data-point-id="{{ point.id }}">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Initialize points data -->
+<script type="text/javascript">
+    window.existingPoints = [];
+    
+    try {
+        const pointsData = '{{ points_json|escapejs }}';
+        console.log('Raw points data:', pointsData);
+        if (pointsData) {
+            window.existingPoints = JSON.parse(pointsData).map(point => ({
+                ...point,
+                id: point.id
+            }));
+        }
+    } catch (error) {
+        console.error('Error parsing points data:', error);
+    }
+    
+    console.log('Parsed existing points:', window.existingPoints);
+</script>
+
+<!-- Load map.js after points data -->
+{% load static %}
+<script src="{% static 'js/map.js' %}"></script>
+
+<style>
+    #map-container {
+        margin-bottom: 20px;
+    }
+    
+    .points-list {
+        margin: 20px;
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .points-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background-color: white;
+    }
+
+    .points-table th,
+    .points-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .points-table th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .points-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Responsive layout */
+    @media screen and (max-width: 600px) {
+        .points-table {
+            font-size: 14px;
+        }
+        
+        .points-table th,
+        .points-table td {
+            padding: 8px;
+        }
+    }
+
+    /* Form styling */
+    #point-form {
+        margin: 20px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    #point-form h3 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #34495e;
+        font-weight: 500;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group textarea:focus {
+        border-color: #4CAF50;
+        outline: none;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+    }
+
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+
+    .submit-btn:active {
+        background-color: #3d8b40;
+    }
+
+    /* Responsive form layout */
+    @media screen and (min-width: 768px) {
+        #point-form {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .form-group input[type="text"],
+        .form-group textarea {
+            font-size: 16px; /* Better for mobile input */
+        }
+    }
+
+    /* Delete button styling */
+    .delete-point-btn {
+        background-color: #dc3545;
+        color: white;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete-point-btn:hover {
+        background-color: #c82333;
+    }
+</style>
+{% endblock %} 

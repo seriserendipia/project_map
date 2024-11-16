@@ -1,0 +1,5 @@
+Django==4.2.0
+psycopg2-binary==2.9.6
+django-leaflet==0.28.0
+django-cors-headers==4.0.0
+# GDAL 将通过 OSGeo4W 或 conda 安装
