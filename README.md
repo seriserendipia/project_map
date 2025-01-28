@@ -2,7 +2,7 @@
 A web application inspired by GIS Hazard project using Django and Leaflet. Composed mainly by Cursor.
 
 # Demo
-![image](https://github.com/YourAcountName/ProjectName/blob/master/GIFName.gif )   
+![Demo Image](https://github.com/seriserendipia/project_map/blob/master/demo.gif?raw=true)   
 
 ## Features
 - managing and displaying data points on map
