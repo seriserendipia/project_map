@@ -1,24 +1,24 @@
 # Map Application
-A web application inspired by GIS Hazard project using Django and Leaflet. Composed mainly by Cursor.
+A web application inspired by the GIS Hazard project, built with Django and Leaflet. And also an attempt to use Cursor to code.
 
-# Demo
-![Demo Image](https://github.com/seriserendipia/project_map/blob/master/demo.gif?raw=true)   
+## Demo
+![Demo Image](https://github.com/seriserendipia/project_map/blob/master/demo.gif?raw=true)
 
 ## Features
-- managing and displaying data points on map
+- Manage and display map data points
 - Add and delete points
-- Point listing with details
-- data is stored in PostgresSQL database
+- View point details
+- Data stored in PostgreSQL
 
-## Technologies Used
+## Technologies
 - Django
 - Leaflet.js
 - HTML/CSS
-- JavaScript 
+- JavaScript
 
-# How to run this project
+## Running the Project
 ```bash
 cd path/to/your/project
 python manage.py runserver
 ```
-If you started the server, you can access your application by opening a web browser and navigating to http://127.0.0.1:8000/
+Access the application at http://127.0.0.1:8000/
