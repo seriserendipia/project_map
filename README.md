@@ -1,5 +1,5 @@
 # Map Application
-A web application inspired by the GIS Hazard project, built with Django and Leaflet. And also an attempt to use Cursor to code.
+A simple web application inspired by the GIS Hazard project, built with Django and Leaflet. And also an attempt to use Cursor to code.
 
 ## Demo
 ![Demo Image](https://github.com/seriserendipia/project_map/blob/master/demo.gif?raw=true)
